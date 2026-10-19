@@ -63,7 +63,9 @@ in
     ../../tools/android.nix
     ../../tools/python.nix
     ../../tools/frontend.nix
-    #../../tools/ai.nix
+    ../../tools/gpu-monitor.nix
+    ../../tools/gpu-stress.nix
+    ../../tools/ai.nix
     ../../tools/agentic.nix
   ];
 
