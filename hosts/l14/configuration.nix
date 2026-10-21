@@ -22,7 +22,7 @@
     ../../tools/docker.nix
     ../../tools/www.nix
     ../../tools/development.nix
-    ../../tools/php83.nix
+    ../../tools/php85.nix
     ../../tools/libreoffice.nix
     ../../tools/multimedia.nix
     ../../tools/3d.nix
