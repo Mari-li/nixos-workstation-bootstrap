@@ -40,6 +40,7 @@
     keepassxc
     pciutils
     pavucontrol
-    wakeonlan
+    #wakeonlan
+    obsidian
   ];
 }
