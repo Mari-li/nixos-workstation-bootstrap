@@ -31,7 +31,7 @@
     ../../tools/python.nix
     ../../tools/frontend.nix
     ../../tools/vscode.nix
-    ../../tools/meetings.nix
+    ../../tools/communication.nix
     ../../tools/printing.nix
 
     ../../tools/kvm.nix
