@@ -21,14 +21,13 @@
 
     ../../workspace/kde.nix
 
-    ../../tools/common.nix
+    ../../tools/essentials.nix
     ../../tools/docker.nix
-    ../../tools/www.nix
-    ../../tools/development.nix
+    ../../tools/chrome.nix
+    ../../tools/development-web.nix
     ../../tools/php85.nix
     ../../tools/libreoffice.nix
-    ../../tools/multimedia.nix
-    ../../tools/python.nix
+    ../../tools/media.nix
     ../../tools/frontend.nix
     ../../tools/vscode.nix
     ../../tools/communication.nix

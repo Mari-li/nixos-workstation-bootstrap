@@ -1,0 +1,96 @@
+# Zenbook's slimmed-down copy of tools/development.nix: PHP/web work only,
+# without GoLand/PyCharm/IDEA, Cursor, Antigravity, Java/Maven and gRPC.
+# Claude Code comes from tools/agentic.nix.
+{ pkgs, ... }:
+
+{
+  environment.systemPackages = with pkgs; [
+    gcc
+    cmake
+    go
+    python3
+
+    ghex
+    meld
+    zed-editor
+    dbeaver-bin
+    postman
+
+    jetbrains.phpstorm
+
+    gnumake
+
+    # Escape hatch for running a foreign binary without entering a project
+    # environment: steam-run <binary>.
+    steam-run
+  ];
+
+  # Lets unpatched, downloaded binaries run outside an FHS sandbox — a Gradle
+  # wrapper pulling aapt2 from Maven, a vendored node/python toolchain, a
+  # release artifact from a CI job. (Android tooling does not rely on this: it
+  # runs in the distrobox from tools/android.nix.)
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    libGL
+    glib
+    nss
+    nspr
+    expat
+    fontconfig
+    freetype
+    dbus
+    udev
+
+    alsa-lib
+    libx11
+    libxcursor
+    libxcomposite
+    libxdamage
+    libxext
+    libxfixes
+    libxi
+    libxrender
+    libxtst
+    libxcb
+    libXScrnSaver
+    libxkbfile
+    libXinerama
+    libXrandr
+    libXres
+    libXv
+    libxkbcommon
+    libxcb-cursor
+    xcb-util-cursor
+
+    libbsd
+    atk
+    at-spi2-atk
+    cups
+    libdrm
+
+    libpulseaudio
+    libuuid
+    libpng
+    libjpeg
+    zlib
+    mesa
+
+    vulkan-loader
+  ];
+
+  # Per-project dev environments: a project drops a flake.nix plus an .envrc
+  # containing `use flake`, and direnv activates it on cd. nix-direnv keeps the
+  # resulting shell in the store and registers a GC root, so re-entering the
+  # directory is instant and nix-collect-garbage does not discard it.
+  # Zed is configured to pick this up (see home/eg.nix: load_direnv = "shell_hook").
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  services = {
+    nginx.enable = false;
+    httpd.enable = false;
+  };
+}
