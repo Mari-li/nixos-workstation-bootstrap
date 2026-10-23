@@ -23,7 +23,7 @@
 
     ../../tools/essentials.nix
     ../../tools/docker.nix
-    ../../tools/chrome.nix
+    ../../tools/browsers.nix
     ../../tools/development-web.nix
     ../../tools/php85.nix
     ../../tools/libreoffice.nix
