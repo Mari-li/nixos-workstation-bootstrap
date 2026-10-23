@@ -6,7 +6,7 @@
 #   Display 16" 3K OLED
 #   Memory 32GB
 #   Storage 1TB NVMe (954GB usable)
-#   BIOS UM5606GA.302 (2025-12-19), American Megatrends
+#   BIOS UM5606GA.305 (2026-02-25), American Megatrends
 #
 # Started as a copy of hosts/l14 (also AMD iGPU only). Differences from l14:
 #   - no ThinkPad bits (tlp, fprintd); power-profiles-daemon instead of tlp,
