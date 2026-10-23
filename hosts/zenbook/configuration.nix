@@ -4,6 +4,9 @@
 #   ASUS Zenbook S16 UM5606GA
 #   Processor AMD Ryzen AI (Krackan/Strix Point), integrated Radeon graphics
 #   Display 16" 3K OLED
+#   Memory 32GB
+#   Storage 1TB NVMe (954GB usable)
+#   BIOS UM5606GA.302 (2025-12-19), American Megatrends
 #
 # Started as a copy of hosts/l14 (also AMD iGPU only). Differences from l14:
 #   - no ThinkPad bits (tlp, fprintd); power-profiles-daemon instead of tlp,
