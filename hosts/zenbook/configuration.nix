@@ -32,6 +32,7 @@
     ../../tools/frontend.nix
     ../../tools/vscode.nix
     ../../tools/meetings.nix
+    ../../tools/printing.nix
 
     ../../tools/kvm.nix
     ../../tools/vagrant.nix
@@ -143,6 +144,8 @@
       "docker"
       "libvirtd"
       "kvm"
+      "lp"
+      "scanner"
     ];
   };
 
