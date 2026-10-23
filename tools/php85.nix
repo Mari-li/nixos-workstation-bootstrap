@@ -7,6 +7,8 @@
     (php85.withExtensions ({ enabled, all }: enabled ++ [
       all.pdo
       all.pdo_pgsql
+      all.pdo_mysql
+      all.mysqli
       all.mbstring
       all.pgsql
       all.intl

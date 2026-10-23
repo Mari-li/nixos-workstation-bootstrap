@@ -101,6 +101,26 @@
         ];
       };
 
+      zenbook = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          ./hosts/zenbook/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              backupFileExtension = "backup";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                inherit inputs;
+              };
+
+              users.marija = import ./home/marija.nix;
+            };
+          }
+        ];
+      };
+
     };
   };
 }

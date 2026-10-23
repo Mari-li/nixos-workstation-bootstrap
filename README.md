@@ -22,7 +22,7 @@ mkfs.fat -F 32 -n boot /dev/nvme0n1p1
 
 ##### Swap
 ```bash
-mkswap -L swap /dev/sda2
+mkswap -L swap /dev/nvme0n1p2
 swapon /dev/nvme0n1p2
 ```
 
