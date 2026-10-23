@@ -48,6 +48,11 @@
 
   # Use latest kernel: Ryzen AI and the MediaTek Wi-Fi 7 card need it.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Without this the OLED panel stays dark once amdgpu takes over: the system
+  # keeps running and SDDM draws to eDP-1, but nothing shows (only nomodeset
+  # helped). Disabling PSR / Panel Replay on DCN 3.5 fixes it (BIOS .305).
+  # 0x10 = disable PSR, 0x400 = disable Panel Replay.
+  boot.kernelParams = [ "amdgpu.dcdebugmask=0x410" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 

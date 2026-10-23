@@ -30,5 +30,6 @@
     pciutils
     pavucontrol
     obsidian
+    gh
   ];
 }
