@@ -23,6 +23,13 @@
     };
   };
 
+  # gh, plus its git credential helper for https://github.com. The git config
+  # is a read-only home-manager file, so `gh auth setup-git` can't write it.
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = true;
+  };
+
   xdg = {
     enable = true;
 
@@ -33,8 +40,16 @@
         "text/html" = ["google-chrome.desktop"];
         "x-scheme-handler/http" = ["google-chrome.desktop"];
         "x-scheme-handler/https" = ["google-chrome.desktop"];
+        "x-scheme-handler/jetbrains" = ["jetbrainsd.desktop"];
+        "x-scheme-handler/claude-cli" = ["claude-code-url-handler.desktop"];
       };
     };
+
+    # Apps (JetBrains Toolbox, Claude Code) rewrite mimeapps.list to register
+    # their URL handlers, replacing the symlink with a real file. Without force
+    # home-manager backs it up, and aborts the whole activation once a
+    # mimeapps.list.backup already exists. Handlers belong in the list above.
+    configFile."mimeapps.list".force = true;
   };
 
   /**
