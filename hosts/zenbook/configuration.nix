@@ -35,6 +35,7 @@
     ../../tools/vscode.nix
     ../../tools/communication.nix
     ../../tools/printing.nix
+    ../../tools/syncthing.nix
 
     ../../tools/kvm.nix
     ../../tools/vagrant.nix
