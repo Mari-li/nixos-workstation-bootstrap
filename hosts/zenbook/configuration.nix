@@ -64,10 +64,32 @@
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
 
-  # Partition labelled "swap" by `mkswap -L swap` during install (see README).
-  swapDevices = [ {
-    device = "/dev/disk/by-label/swap";
-  } ];
+  # Disk: LUKS root (btrfs subvolumes) plus a separate LUKS swap partition,
+  # both declared in ./hardware-configuration.nix. Swap must be encrypted
+  # because hibernation writes all of RAM, LUKS master key included, to it.
+  # systemd-cryptsetup in the initrd caches the passphrase, so both volumes
+  # unlock with one prompt when they share it.
+  boot.resumeDevice = "/dev/mapper/cryptswap";
+
+  # Let fstrim reach the SSD through LUKS. Leaks only which blocks are free.
+  boot.initrd.luks.devices.cryptroot.allowDiscards = true;
+  boot.initrd.luks.devices.cryptswap.allowDiscards = true;
+
+  # Merged with the subvol= options from ./hardware-configuration.nix.
+  # compress only affects data written from now on.
+  fileSystems = lib.genAttrs [ "/" "/home" "/nix" "/var/log" ] (_: {
+    options = [ "compress=zstd" "noatime" ];
+  });
+
+  # Monthly checksum scrub; all subvolumes live on one filesystem.
+  services.btrfs.autoScrub = {
+    enable = true;
+    fileSystems = [ "/" ];
+  };
+
+  # Ambient light + proximity sensors (Sensor Fusion Hub), for Plasma's
+  # automatic brightness.
+  hardware.sensor.iio.enable = true;
 
   services.xserver.enable = false;
 
@@ -81,21 +103,14 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      mesa
-      libva
-      libva-utils
-      libva-vdpau-driver
-      libvdpau-va-gl
-      vulkan-loader
-      vulkan-validation-layers
-    ];
+    # No extraPackages: Mesa (radeonsi VA-API, RADV Vulkan) is the default.
   };
 
   environment.systemPackages = with pkgs; [
     mesa
     mesa-demos
     vulkan-tools
+    libva-utils   # vainfo
     wayland
     wayland-utils
   ];
@@ -112,7 +127,6 @@
 
   # Firmware updates (BIOS/EC via LVFS where ASUS publishes them)
   services.fwupd.enable = true;
-  services.acpid.enable = true;
 
   # Power: power-profiles-daemon drives amd-pstate EPP; Plasma's battery
   # applet switches between power-saver / balanced / performance.

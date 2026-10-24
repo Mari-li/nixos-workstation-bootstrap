@@ -45,8 +45,12 @@
       options = [ "subvol=log" ];
     };
 
+  # Swap re-created inside LUKS after install (label set by
+  # `cryptsetup luksFormat --label cryptswap`), so not generated output.
+  boot.initrd.luks.devices."cryptswap".device = "/dev/disk/by-label/cryptswap";
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/fda3cfa7-ace4-4cc6-8930-82fa7e4b0c1d"; }
+    [ { device = "/dev/mapper/cryptswap"; }
     ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
