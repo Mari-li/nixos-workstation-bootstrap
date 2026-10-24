@@ -12,7 +12,32 @@
     inputs.plasma-manager.homeModules.plasma-manager
   ];
 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+    historySize = 100000;
+    historyFileSize = 100000;
+    # A command typed with a leading space is not saved (bash and atuin).
+    historyControl = [ "ignoredups" "ignorespace" ];
+  };
+
+  # Shell history search on Ctrl+R, synced end-to-end encrypted with the
+  # Fedora laptop via api.atuin.sh. Up arrow stays plain bash history.
+  # One-time: `atuin login` (account/key from the Fedora laptop), then
+  # `atuin import bash` and `atuin sync`.
+  programs.atuin = {
+    enable = true;
+    enableBashIntegration = true;
+    flags = [ "--disable-up-arrow" ];
+    settings = {
+      auto_sync = true;
+      sync_frequency = "10m";
+      sync_address = "https://api.atuin.sh";
+      update_check = false;
+      search_mode = "fuzzy";
+      filter_mode = "global";
+      secrets_filter = true;
+    };
+  };
 
   # Overrides the system-wide identity set in tools/common.nix.
   programs.git = {
